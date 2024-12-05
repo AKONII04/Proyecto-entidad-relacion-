@@ -7,17 +7,18 @@ En el Mundial de League of Legends de 2024, el equipo T1 se coronó campeón gra
 
 Se desea registrar los datos de los jugadores que participan en el torneo. De cada jugador se quiere almacenar su nombre completo, apodo, rol dentro del equipo (top laner, jungler, mid laner, AD Carry o support), nacionalidad, y fecha de nacimiento. Además, se debe incluir información sobre su rendimiento individual, como número de asesinatos, asistencias y muertes acumulados durante el torneo, junto con el número de partidas jugadas. Cada jugador tendrá un código único que lo identifique en la base de datos. Cabe destacar que un jugador solo puede pertenecer a un único equipo durante todo el torneo.
 
-De cada equipo participante se debe registrar su nombre, la región a la que representan (por ejemplo, Corea, China, Europa, Norteamérica), el nombre del entrenador principal, la cantidad de títulos internacionales previos ganados y la alineación de jugadores que forman parte del equipo. Cada equipo tendrá un identificador único y solo podrá tener un entrenador principal asignado. También se desea registrar al capitán del equipo, que será uno de los jugadores en la alineación.
+De cada equipo participante se debe registrar su nombre, la región a la que representan (por ejemplo, Corea, China, Europa, Norteamérica), el nombre del entrenador principal, la cantidad de títulos internacionales previos ganados y la alineación de jugadores que forman parte del equipo. Cada equipo tendrá un identificador único y solo podrá tener un entrenador principal asignado. 
 
-En cuanto a los partidos jugados durante el torneo, se debe guardar información detallada como la fecha y hora del partido, los equipos enfrentados, el formato de la serie (por ejemplo, mejor de 1 o mejor de 5), el número de victorias obtenidas por cada equipo en la serie y el resultado final del enfrentamiento. También se debe registrar estadísticas específicas como la duración de cada partida, el número de asesinatos totales por equipo y los objetivos logrados (dragones, heraldos, barones Nashor). Cada partido será identificado de manera única.
+En cuanto a los partidos jugados durante el torneo, se debe guardar información detallada como la fecha y hora del partido, los equipos enfrentados, el formato de la serie (por ejemplo, mejor de 1 o mejor de 5), el número de victorias obtenidas por cada equipo en la serie y el resultado final del enfrentamiento. 
 
 Es necesario gestionar información sobre el torneo en sí, como su nombre, el año en que se lleva a cabo, la sede principal (ciudad o país), el formato competitivo utilizado (como fase de grupos, formato suizo o eliminatoria directa), y el premio total en dólares repartido entre los equipos. Además, se debe almacenar información sobre el equipo campeón del torneo y las estadísticas finales de sus jugadores.
 
 Por otro lado, se desea registrar los logros individuales de los jugadores en cada partido, incluyendo distinciones como MVP (Jugador Más Valioso) del encuentro, la mayor cantidad de asesinatos en una partida o el mayor daño infligido. Estos logros estarán vinculados a jugadores específicos y a los partidos en los que los obtuvieron. Un jugador puede recibir múltiples reconocimientos a lo largo del torneo.
 
-Finalmente, se quiere incluir información sobre los organizadores y patrocinadores del evento. De cada organizador se desea guardar su nombre, cargo, y entidad a la que pertenece. De los patrocinadores se debe registrar su nombre, el monto de su aportación económica y el tipo de patrocinio (tecnología, transporte, etc.). Esto permitirá tener un registro completo de todos los actores involucrados en el Mundial de League of Legends 2024.
+Finalmente, se quiere incluir información sobre los organizadores y patrocinadores del evento. De cada organizador se desea guardar su nombre, cargo, y entidad a la que pertenece. De los patrocinadores se debe registrar su nombre, el monto de su aportación económica y el tipo de patrocinio (tecnología, transporte, etc.). 
+![Descripción de la imagen](https://pbs.twimg.com/media/Fg1apC5UYAAnVks?format=jpg&name=small)
 
-## Entidades y sus Atributos
+## Entidades y sus Atributos / PAso a tabla 
 
 ### 1. **Jugador**
 
@@ -38,8 +39,7 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 | `ID_equipo`           | Identificador único del equipo (PK)              |
 | `Nombre`              | Nombre del equipo                                |
 | `Región`              | Región representada por el equipo (Corea, China, etc.) |
-| `Entrenador`          | Nombre del entrenador principal                  |
-| `Capitán`             | ID del jugador que es el capitán del equipo (FK hacia Jugador) |
+| `Entrenador`          | Nombre del entrenador principal                  | |
 | `Títulos_previos`     | Cantidad de títulos internacionales previos    |
 
 ### 3. **Torneo**
@@ -111,44 +111,75 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 | `Cargo`               | Cargo que ocupa dentro del evento                |
 | `Entidad`             | Entidad o empresa a la que pertenece             |
 | `ID_torneo`           | ID del torneo gestionado por el organizador (FK hacia Torneo) |
+
+
+# Normalización del Modelo de Base de Datos - Mundial de League of Legends 2024
+
+## Primera Forma Normal (1NF)
+
+### Requisitos
+- Cada columna debe contener valores **atómicos** (sin listas ni conjuntos).
+- Cada fila debe ser única (asegurado con claves primarias).
+- No deben existir columnas repetitivas.
+
+### Ejemplo de Aplicación
+- En la tabla **Jugador**, cada jugador tiene una fila única identificada por `ID_jugador`. Sus atributos, como `Rol` o `Nacionalidad`, contienen valores atómicos (no listas de roles ni múltiples nacionalidades).
+
+---
+
+## Segunda Forma Normal (2NF)
+
+### Requisitos
+- Cumple con 1NF.
+- Todos los atributos no clave dependen **totalmente** de la clave primaria.
+
+### Ejemplo de Aplicación
+- En **EstadísticasPartido**, los atributos como `Asesinatos` o `Asistencias` dependen completamente de la combinación de las claves `ID_partido` y `ID_jugador`, que forman la clave primaria en un modelo de tabla compuesta.
+
+Si hubiera información como el nombre del jugador, que depende solo de `ID_jugador` y no de ambos atributos, se movería a la tabla **Jugador**.
+
+---
+
+## Tercera Forma Normal (3NF)
+
+### Requisitos
+- Cumple con 2NF.
+- No existen dependencias transitivas entre atributos no clave.
+
+### Ejemplo de Aplicación
+- En **Equipo**, los atributos como `Nombre` o `Región` dependen solo de la clave primaria `ID_equipo`. Si existiera una relación como "La región determina el nombre del equipo", se dividiría en una nueva tabla (no necesaria aquí porque no hay dependencia transitiva).
+
+---
+
+
+
 # Relaciones entre Entidades - Mundial League of Legends 2024
 
 ## Relaciones Principales
 
-### 1. **Relación Jugador - Equipo (N:1)**  
+### 1. **Relación Jugador - Equipo (1:N)**  
 - **Descripción**:  
   Un jugador pertenece a un único equipo durante el torneo, pero un equipo puede tener varios jugadores en su alineación.  
 - **Cardinalidad**:  
   - **1:N**: Un equipo puede tener muchos jugadores.  
-  - **N:1**: Un jugador pertenece a un único equipo.  
+  - **1:1**: Un jugador pertenece a un único equipo.  
 - **Implementación**:  
   - En la tabla **Jugador**, el atributo `ID_equipo` actúa como una clave foránea hacia la tabla **Equipo**.  
 
 ---
 
-### 2. **Relación Capitán - Jugador (1:1 reflexiva)**  
-- **Descripción**:  
-  El capitán de un equipo es uno de los jugadores que pertenecen a ese equipo.  
-- **Cardinalidad**:  
-  - **1:1**: Cada equipo tiene un único capitán, y un jugador solo puede ser capitán de un equipo.  
-- **Implementación**:  
-  - En la tabla **Equipo**, el campo `Capitán` es una clave foránea hacia la tabla **Jugador**.  
-  - La relación reflexiva asegura que el capitán sea un jugador válido dentro del mismo equipo.
-
----
-
-### 3. **Relación Partido - Torneo (N:1)**  
+### 2. **Relación Partido - Torneo (1:N)**  
 - **Descripción**:  
   Un partido pertenece a un solo torneo, pero un torneo puede incluir múltiples partidos.  
 - **Cardinalidad**:  
   - **1:N**: Un torneo puede tener varios partidos.  
-  - **N:1**: Cada partido pertenece a un único torneo.  
+  - **1:1**: Cada partido pertenece a un único torneo.  
 - **Implementación**:  
   - En la tabla **Partido**, el atributo `ID_torneo` actúa como una clave foránea hacia la tabla **Torneo**.
 
 ---
 
-### 4. **Relación Jugador - Partido - Estadísticas (N:M)**  
+### 3. **Relación Jugador - PartidoEstadísticas (N:M)**  
 - **Descripción**:  
   Un jugador puede participar en varios partidos y, en cada partido, se registran estadísticas individuales.  
 - **Cardinalidad**:  
@@ -158,7 +189,7 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 
 ---
 
-### 5. **Relación Torneo - Patrocinador (N:M)**  
+### 4. **Relación Torneo - Patrocinador (N:M)**  
 - **Descripción**:  
   Un torneo puede tener múltiples patrocinadores, y un patrocinador puede estar asociado con múltiples torneos.  
 - **Cardinalidad**:  
@@ -168,18 +199,18 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 
 ---
 
-### 6. **Relación Torneo - Organizador (1:N)**  
+### 5. **Relación Torneo - Organizador (1:N)**  
 - **Descripción**:  
   Un torneo puede tener varios organizadores involucrados en su gestión.  
 - **Cardinalidad**:  
   - **1:N**: Un torneo puede estar gestionado por múltiples organizadores.  
-  - **N:1**: Cada organizador está asignado a un único torneo.  
+  - **1:1**: Cada organizador está asignado a un único torneo.  
 - **Implementación**:  
   - En la tabla **Organizador**, el atributo `ID_torneo` actúa como una clave foránea hacia la tabla **Torneo**.  
 
 ---
 
-### 7. **Relación LogroIndividual - Jugador - Partido (N:M)**  
+### 6. **Relación LogroIndividual - Jugador - Partido (N:M)**  
 - **Descripción**:  
   Un jugador puede recibir múltiples logros en diferentes partidos del torneo.  
 - **Cardinalidad**:  
@@ -189,7 +220,7 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 
 ---
 
-### 8. **Relación Equipo - Partido (N:M)**  
+### 7. **Relación Equipo - Partido (N:M)**  
 - **Descripción**:  
   Cada partido tiene dos equipos enfrentándose, y un equipo puede participar en múltiples partidos.  
 - **Cardinalidad**:  
@@ -199,26 +230,23 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 
 ---
 
-### 9. **Relación Torneo - Equipo (1:N)**  
+### 8. **Relación Torneo - Equipo (1:N)**  
 - **Descripción**:  
   Un torneo puede tener múltiples equipos compitiendo, pero un equipo pertenece a un único torneo.  
 - **Cardinalidad**:  
   - **1:N**: Un torneo incluye varios equipos.  
-  - **N:1**: Cada equipo compite en un único torneo.  
+  - **1:1**: Cada equipo compite en un único torneo.  
 - **Implementación**:  
   - En la tabla **Equipo**, el atributo `ID_torneo` podría añadirse (si es necesario) como una clave foránea hacia **Torneo** para conectar los equipos con el torneo correspondiente.
 
 ---
 
-### 10. **Relación Partido - Estadísticas de Objetivos (1:N)**  
-- **Descripción**:  
-  Cada partido tiene estadísticas de objetivos logrados por los equipos, como dragones, barones Nashor y heraldos.  
-- **Cardinalidad**:  
-  - **1:N**: Un partido puede registrar múltiples estadísticas de objetivos.  
-- **Implementación**:  
-  - Las estadísticas específicas del equipo en el partido podrían incluirse en una tabla adicional, por ejemplo, **EstadísticasEquipoPartido**, conectando **Partido** y **Equipo** con detalles de los objetivos.
 
 ---
+
+
+
+
 
 
 
