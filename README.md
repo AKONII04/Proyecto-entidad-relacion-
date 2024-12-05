@@ -16,6 +16,8 @@ Es necesario gestionar información sobre el torneo en sí, como su nombre, el a
 Por otro lado, se desea registrar los logros individuales de los jugadores en cada partido, incluyendo distinciones como MVP (Jugador Más Valioso) del encuentro, la mayor cantidad de asesinatos en una partida o el mayor daño infligido. Estos logros estarán vinculados a jugadores específicos y a los partidos en los que los obtuvieron. Un jugador puede recibir múltiples reconocimientos a lo largo del torneo.
 
 Finalmente, se quiere incluir información sobre los organizadores y patrocinadores del evento. De cada organizador se desea guardar su nombre, cargo, y entidad a la que pertenece. De los patrocinadores se debe registrar su nombre, el monto de su aportación económica y el tipo de patrocinio (tecnología, transporte, etc.). 
+
+
 ![Descripción de la imagen](https://pbs.twimg.com/media/Fg1apC5UYAAnVks?format=jpg&name=small)
 
 ## Entidades y sus Atributos / PAso a tabla 
