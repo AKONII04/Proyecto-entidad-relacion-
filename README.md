@@ -129,7 +129,7 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 
 ---
 
-## Segunda Forma Normal (2NF)
+ ## Segunda Forma Normal (2NF)
 
 ### Requisitos
 - Cumple con 1NF.
@@ -139,7 +139,6 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 - En **EstadísticasPartido**, los atributos como `Asesinatos` o `Asistencias` dependen completamente de la combinación de las claves `ID_partido` y `ID_jugador`, que forman la clave primaria en un modelo de tabla compuesta.
 
 Si hubiera información como el nombre del jugador, que depende solo de `ID_jugador` y no de ambos atributos, se movería a la tabla **Jugador**.
-
 ---
 
 ## Tercera Forma Normal (3NF)
@@ -242,9 +241,8 @@ Si hubiera información como el nombre del jugador, que depende solo de `ID_juga
   - En la tabla **Equipo**, el atributo `ID_torneo` podría añadirse (si es necesario) como una clave foránea hacia **Torneo** para conectar los equipos con el torneo correspondiente.
 
 ---
+![EntidadRelacionLOL2024 drawio](https://github.com/user-attachments/assets/1d45d5ef-2802-4ae2-a80e-628f8797f3c5)
 
-
----
 
 
 
