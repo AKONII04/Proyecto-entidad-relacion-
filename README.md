@@ -150,6 +150,8 @@ Si hubiera información como el nombre del jugador, que depende solo de `ID_juga
 ### Ejemplo de Aplicación
 - En **Equipo**, los atributos como `Nombre` o `Región` dependen solo de la clave primaria `ID_equipo`. Si existiera una relación como "La región determina el nombre del equipo", se dividiría en una nueva tabla (no necesaria aquí porque no hay dependencia transitiva).
 
+  
+
 ---
 
 
