@@ -21,6 +21,55 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 ![Descripción de la imagen](https://pbs.twimg.com/media/Fg1apC5UYAAnVks?format=jpg&name=small)
 
 ## Entidades y sus Atributos / Paso a tabla 
+# Atributos por Tabla
+
+## Jugador
+- **ID_jugador (PK)**  
+- Nombre  
+- Apodo  
+- Rol  
+- Nacionalidad  
+- Fecha de nacimiento  
+
+
+## Equipo
+- **ID_equipo (PK)**  
+- Nombre  
+- Región  
+- Entrenador  
+- Títulos previos  
+
+## Torneo
+- **ID_torneo (PK)**  
+- Nombre  
+- Año  
+- Sede  
+- Formato  
+- Premio total  
+
+## Partido
+- **ID_partido (PK)**  
+- Fecha  
+- ID_torneo (FK hacia Torneo)  
+- Formato de serie  
+
+## Patrocinador
+- **ID_patrocinador (PK)**  
+- Nombre  
+- Tipo de patrocinio  
+- Monto aportado  
+
+## Organizador
+- **ID_organizador (PK)**  
+- Nombre  
+- Cargo  
+- Entidad  
+
+---------
+
+
+## Paso a tabla 
+
 
 ### 1. **Jugador**
 
