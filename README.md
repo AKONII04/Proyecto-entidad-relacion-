@@ -20,7 +20,7 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 
 ![Descripción de la imagen](https://pbs.twimg.com/media/Fg1apC5UYAAnVks?format=jpg&name=small)
 
-## Entidades y sus Atributos / PAso a tabla 
+## Entidades y sus Atributos / Paso a tabla 
 
 ### 1. **Jugador**
 
