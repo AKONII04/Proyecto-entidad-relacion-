@@ -66,6 +66,96 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 - Entidad  
 
 ---------
+# Relaciones entre Entidades - Mundial League of Legends 2024
+
+## Relaciones Principales
+
+### 1. **Relación Jugador - Equipo (1:N)**  
+- **Descripción**:  
+  Un jugador pertenece a un único equipo durante el torneo, pero un equipo puede tener varios jugadores en su alineación.  
+- **Cardinalidad**:  
+  - **1:N**: Un equipo puede tener muchos jugadores.  
+  - **1:1**: Un jugador pertenece a un único equipo.  
+- **Implementación**:  
+  - En la tabla **Jugador**, el atributo `ID_equipo` actúa como una clave foránea hacia la tabla **Equipo**.  
+
+---
+
+### 2. **Relación Partido - Torneo (1:N)**  
+- **Descripción**:  
+  Un partido pertenece a un solo torneo, pero un torneo puede incluir múltiples partidos.  
+- **Cardinalidad**:  
+  - **1:N**: Un torneo puede tener varios partidos.  
+  - **1:1**: Cada partido pertenece a un único torneo.  
+- **Implementación**:  
+  - En la tabla **Partido**, el atributo `ID_torneo` actúa como una clave foránea hacia la tabla **Torneo**.
+
+---
+
+### 3. **Relación Jugador - PartidoEstadísticas (N:M)**  
+- **Descripción**:  
+  Un jugador puede participar en varios partidos y, en cada partido, se registran estadísticas individuales.  
+- **Cardinalidad**:  
+  - **N:M**: Un jugador puede estar en múltiples partidos y un partido tiene estadísticas para varios jugadores.  
+- **Implementación**:  
+  - La tabla **EstadísticasPartido** actúa como una tabla intermedia entre **Jugador** y **Partido**, permitiendo registrar estadísticas detalladas para cada jugador en cada partido.
+
+---
+
+### 4. **Relación Torneo - Patrocinador (N:M)**  
+- **Descripción**:  
+  Un torneo puede tener múltiples patrocinadores, y un patrocinador puede estar asociado con múltiples torneos.  
+- **Cardinalidad**:  
+  - **N:M**: Un torneo puede tener varios patrocinadores, y un patrocinador puede apoyar múltiples torneos.  
+- **Implementación**:  
+  - La tabla **TorneoPatrocinador** actúa como una tabla intermedia que conecta a las tablas **Torneo** y **Patrocinador**.  
+
+---
+
+### 5. **Relación Torneo - Organizador (1:N)**  
+- **Descripción**:  
+  Un torneo puede tener varios organizadores involucrados en su gestión.  
+- **Cardinalidad**:  
+  - **1:N**: Un torneo puede estar gestionado por múltiples organizadores.  
+  - **1:1**: Cada organizador está asignado a un único torneo.  
+- **Implementación**:  
+  - En la tabla **Organizador**, el atributo `ID_torneo` actúa como una clave foránea hacia la tabla **Torneo**.  
+
+---
+
+### 6. **Relación LogroIndividual - Jugador - Partido (N:M)**  
+- **Descripción**:  
+  Un jugador puede recibir múltiples logros en diferentes partidos del torneo.  
+- **Cardinalidad**:  
+  - **N:M**: Un jugador puede tener logros en varios partidos, y un partido puede incluir logros para varios jugadores.  
+- **Implementación**:  
+  - La tabla **LogroIndividual** relaciona **Jugador** y **Partido**, con un campo adicional para la descripción del logro.
+
+---
+
+### 7. **Relación Equipo - Partido (N:M)**  
+- **Descripción**:  
+  Cada partido tiene dos equipos enfrentándose, y un equipo puede participar en múltiples partidos.  
+- **Cardinalidad**:  
+  - **N:M**: Un equipo puede jugar varios partidos, y cada partido enfrenta a dos equipos.  
+- **Implementación**:  
+  - En la tabla **Partido**, los atributos `Equipo_ganador` y `Equipo_perdedor` son claves foráneas hacia la tabla **Equipo**.
+
+---
+
+### 8. **Relación Torneo - Equipo (1:N)**  
+- **Descripción**:  
+  Un torneo puede tener múltiples equipos compitiendo, pero un equipo pertenece a un único torneo.  
+- **Cardinalidad**:  
+  - **1:N**: Un torneo incluye varios equipos.  
+  - **1:1**: Cada equipo compite en un único torneo.  
+- **Implementación**:  
+  - En la tabla **Equipo**, el atributo `ID_torneo` podría añadirse (si es necesario) como una clave foránea hacia **Torneo** para conectar los equipos con el torneo correspondiente.
+
+---
+![EntidadRelacionLOL2024 drawio](https://github.com/user-attachments/assets/1d45d5ef-2802-4ae2-a80e-628f8797f3c5)
+
+--------
 
 
 ## Paso a tabla 
@@ -164,6 +254,9 @@ Finalmente, se quiere incluir información sobre los organizadores y patrocinado
 | `ID_torneo`           | ID del torneo gestionado por el organizador (FK hacia Torneo) |
 
 
+
+-------------
+
 # Normalización del Modelo de Base de Datos - Mundial de League of Legends 2024
 
 ## Primera Forma Normal (1NF)
@@ -202,104 +295,6 @@ Si hubiera información como el nombre del jugador, que depende solo de `ID_juga
   
 
 ---
-
-
-
-# Relaciones entre Entidades - Mundial League of Legends 2024
-
-## Relaciones Principales
-
-### 1. **Relación Jugador - Equipo (1:N)**  
-- **Descripción**:  
-  Un jugador pertenece a un único equipo durante el torneo, pero un equipo puede tener varios jugadores en su alineación.  
-- **Cardinalidad**:  
-  - **1:N**: Un equipo puede tener muchos jugadores.  
-  - **1:1**: Un jugador pertenece a un único equipo.  
-- **Implementación**:  
-  - En la tabla **Jugador**, el atributo `ID_equipo` actúa como una clave foránea hacia la tabla **Equipo**.  
-
----
-
-### 2. **Relación Partido - Torneo (1:N)**  
-- **Descripción**:  
-  Un partido pertenece a un solo torneo, pero un torneo puede incluir múltiples partidos.  
-- **Cardinalidad**:  
-  - **1:N**: Un torneo puede tener varios partidos.  
-  - **1:1**: Cada partido pertenece a un único torneo.  
-- **Implementación**:  
-  - En la tabla **Partido**, el atributo `ID_torneo` actúa como una clave foránea hacia la tabla **Torneo**.
-
----
-
-### 3. **Relación Jugador - PartidoEstadísticas (N:M)**  
-- **Descripción**:  
-  Un jugador puede participar en varios partidos y, en cada partido, se registran estadísticas individuales.  
-- **Cardinalidad**:  
-  - **N:M**: Un jugador puede estar en múltiples partidos y un partido tiene estadísticas para varios jugadores.  
-- **Implementación**:  
-  - La tabla **EstadísticasPartido** actúa como una tabla intermedia entre **Jugador** y **Partido**, permitiendo registrar estadísticas detalladas para cada jugador en cada partido.
-
----
-
-### 4. **Relación Torneo - Patrocinador (N:M)**  
-- **Descripción**:  
-  Un torneo puede tener múltiples patrocinadores, y un patrocinador puede estar asociado con múltiples torneos.  
-- **Cardinalidad**:  
-  - **N:M**: Un torneo puede tener varios patrocinadores, y un patrocinador puede apoyar múltiples torneos.  
-- **Implementación**:  
-  - La tabla **TorneoPatrocinador** actúa como una tabla intermedia que conecta a las tablas **Torneo** y **Patrocinador**.  
-
----
-
-### 5. **Relación Torneo - Organizador (1:N)**  
-- **Descripción**:  
-  Un torneo puede tener varios organizadores involucrados en su gestión.  
-- **Cardinalidad**:  
-  - **1:N**: Un torneo puede estar gestionado por múltiples organizadores.  
-  - **1:1**: Cada organizador está asignado a un único torneo.  
-- **Implementación**:  
-  - En la tabla **Organizador**, el atributo `ID_torneo` actúa como una clave foránea hacia la tabla **Torneo**.  
-
----
-
-### 6. **Relación LogroIndividual - Jugador - Partido (N:M)**  
-- **Descripción**:  
-  Un jugador puede recibir múltiples logros en diferentes partidos del torneo.  
-- **Cardinalidad**:  
-  - **N:M**: Un jugador puede tener logros en varios partidos, y un partido puede incluir logros para varios jugadores.  
-- **Implementación**:  
-  - La tabla **LogroIndividual** relaciona **Jugador** y **Partido**, con un campo adicional para la descripción del logro.
-
----
-
-### 7. **Relación Equipo - Partido (N:M)**  
-- **Descripción**:  
-  Cada partido tiene dos equipos enfrentándose, y un equipo puede participar en múltiples partidos.  
-- **Cardinalidad**:  
-  - **N:M**: Un equipo puede jugar varios partidos, y cada partido enfrenta a dos equipos.  
-- **Implementación**:  
-  - En la tabla **Partido**, los atributos `Equipo_ganador` y `Equipo_perdedor` son claves foráneas hacia la tabla **Equipo**.
-
----
-
-### 8. **Relación Torneo - Equipo (1:N)**  
-- **Descripción**:  
-  Un torneo puede tener múltiples equipos compitiendo, pero un equipo pertenece a un único torneo.  
-- **Cardinalidad**:  
-  - **1:N**: Un torneo incluye varios equipos.  
-  - **1:1**: Cada equipo compite en un único torneo.  
-- **Implementación**:  
-  - En la tabla **Equipo**, el atributo `ID_torneo` podría añadirse (si es necesario) como una clave foránea hacia **Torneo** para conectar los equipos con el torneo correspondiente.
-
----
-![EntidadRelacionLOL2024 drawio](https://github.com/user-attachments/assets/1d45d5ef-2802-4ae2-a80e-628f8797f3c5)
-
-
-
-
-
-
-
 
 
 
